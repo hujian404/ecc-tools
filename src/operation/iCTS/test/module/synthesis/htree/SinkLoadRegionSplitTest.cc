@@ -41,8 +41,7 @@ class SplitPinFactory
   auto make(int x, int y) -> icts::Pin*
   {
     const auto index = _pins.size();
-    auto inst
-        = std::make_unique<icts::Inst>("split_inst_" + std::to_string(index), "DFF_X1", icts::InstType::kFlipFlop, icts::Point<int>(x, y));
+    auto inst = std::make_unique<icts::Inst>("split_inst_" + std::to_string(index), "DFF_X1", icts::InstType::kFlipFlop, icts::Point<int>(x, y));
     auto* inst_ptr = inst.get();
     auto pin = std::make_unique<icts::Pin>("CLK", icts::PinType::kClock, icts::Point<int>(x, y), inst_ptr, nullptr, false);
     inst_ptr->add_pin(pin.get());
@@ -128,8 +127,8 @@ auto expectTreeFanoutLegal(const std::vector<icts::htree::SinkLoadRegionSplitNod
   }
 }
 
-auto makeRecoveryInput(const std::vector<icts::Pin*>& loads, double pin_cap_pf, std::size_t max_fanout,
-                       double max_cap_pf) -> icts::htree::SinkLoadRegionLegalityInput
+auto makeRecoveryInput(const std::vector<icts::Pin*>& loads, double pin_cap_pf, std::size_t max_fanout, double max_cap_pf)
+    -> icts::htree::SinkLoadRegionLegalityInput
 {
   icts::htree::SinkLoadRegionLegalityInput input{
       .max_fanout = max_fanout,
@@ -415,8 +414,7 @@ TEST(SinkLoadRegionSplitTest, BufferInputCapNoProgressIsTyped)
   EXPECT_NE(plan.failure_reason.find("split_root_cap_violation"), std::string::npos);
 }
 
-auto expectEquivalentRecovery(const icts::htree::SinkLoadRegionSplitPlan& actual,
-                              const icts::htree::SinkLoadRegionSplitPlan& reference) -> void
+auto expectEquivalentRecovery(const icts::htree::SinkLoadRegionSplitPlan& actual, const icts::htree::SinkLoadRegionSplitPlan& reference) -> void
 {
   EXPECT_EQ(actual.feasible, reference.feasible);
   EXPECT_EQ(actual.required, reference.required);
